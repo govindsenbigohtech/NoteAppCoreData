@@ -168,20 +168,24 @@ struct NotesView: View {
                             .ignoresSafeArea()
                         
                         VStack(spacing: 20) {
+                            Image("info")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 50, height: 50)
+                                .padding(.top)
+                            
                             Text(isDiscarding ? "Are you sure you want to discard your changes?" : "Save Changes?")
                                 .font(.headline)
                                 .foregroundColor(.white)
                                 .padding()
-                            
+
                             HStack {
                                 Button(action: {
                                     if isDiscarding {
-                                        // Perform discard operation
                                         titleText = ""
                                         bodyText = ""
                                         presentationMode.wrappedValue.dismiss()
                                     } else {
-                                        // Show discard confirmation
                                         isDiscarding = true
                                     }
                                 }) {
@@ -220,10 +224,11 @@ struct NotesView: View {
                             }
                             .padding(.horizontal)
                         }
-                        .frame(width: 300, height: 200)
+                        .frame(width: 300, height: 300)
                         .background(Color.appBlack)
                         .cornerRadius(12)
                         .shadow(radius: 20)
+                        .padding()
                     }
                 }
             )
