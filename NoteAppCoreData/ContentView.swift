@@ -173,20 +173,14 @@ struct NotesView: View {
                                 .foregroundColor(.white)
                                 .padding()
                             
-                            Text("Do you want to save your changes?")
-                                .font(.subheadline)
-                                .foregroundColor(.white)
-                                .multilineTextAlignment(.center)
-                                .padding()
-                            
                             HStack {
                                 Button(action: {
                                     presentationMode.wrappedValue.dismiss()
                                 }) {
                                     Text("Discard")
-                                        .foregroundColor(.red)
+                                        .foregroundColor(.white)
                                         .padding()
-                                        .background(Color.white.opacity(0.2))
+                                        .background(Color.appRed)
                                         .cornerRadius(8)
                                 }
                                 
@@ -199,14 +193,14 @@ struct NotesView: View {
                                     Text("Save")
                                         .foregroundColor(.white)
                                         .padding()
-                                        .background(Color.blue)
+                                        .background(Color.appGreen)
                                         .cornerRadius(8)
                                 }
                             }
                             .padding(.horizontal)
                         }
                         .frame(width: 300, height: 200)
-                        .background(Color.gray)
+                        .background(Color.appBlack)
                         .cornerRadius(12)
                         .shadow(radius: 20)
                     }
