@@ -5,82 +5,266 @@
 //  Created by Govind-BigOh on 23/12/24.
 //
 
+//import SwiftUI
+//import CoreData
+//
+//struct ContentView: View {
+//    @Environment(\.managedObjectContext) private var viewContext
+//
+//    @FetchRequest(
+//        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
+//        animation: .default)
+//    private var items: FetchedResults<Item>
+//
+//    var body: some View {
+//        NavigationView {
+//            List {
+//                ForEach(items) { item in
+//                    NavigationLink {
+//                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
+//                    } label: {
+//                        Text(item.timestamp!, formatter: itemFormatter)
+//                    }
+//                }
+//                .onDelete(perform: deleteItems)
+//            }
+//            .toolbar {
+//                ToolbarItem(placement: .navigationBarTrailing) {
+//                    EditButton()
+//                }
+//                ToolbarItem {
+//                    Button(action: addItem) {
+//                        Label("Add Item", systemImage: "plus")
+//                    }
+//                }
+//            }
+//            Text("Select an item")
+//        }
+//    }
+//
+//    private func addItem() {
+//        withAnimation {
+//            let newItem = Item(context: viewContext)
+//            newItem.timestamp = Date()
+//
+//            do {
+//                try viewContext.save()
+//            } catch {
+//                // Replace this implementation with code to handle the error appropriately.
+//                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+//                let nsError = error as NSError
+//                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+//            }
+//        }
+//    }
+//
+//    private func deleteItems(offsets: IndexSet) {
+//        withAnimation {
+//            offsets.map { items[$0] }.forEach(viewContext.delete)
+//
+//            do {
+//                try viewContext.save()
+//            } catch {
+//                // Replace this implementation with code to handle the error appropriately.
+//                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+//                let nsError = error as NSError
+//                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+//            }
+//        }
+//    }
+//}
+//
+//private let itemFormatter: DateFormatter = {
+//    let formatter = DateFormatter()
+//    formatter.dateStyle = .short
+//    formatter.timeStyle = .medium
+//    return formatter
+//}()
+//
+//#Preview {
+//    ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+//}
+
+
 import SwiftUI
-import CoreData
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
-
+    
     var body: some View {
         NavigationView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
+            ZStack {
+                Color("appBlack")
+                    .ignoresSafeArea()
+                
+                VStack {
+                    HStack {
+                        Text("Notes")
+                            .font(.system(size: 43, weight: .semibold))
+                            .foregroundColor(.white)
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            // Action for search button
+                        }) {
+                            Image("search")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 48, height: 48)
+                                .padding()
+                        }
+                        .background(Color("appGray"))
+                        .cornerRadius(15)
+                        .padding(.trailing, 25)
+                        .frame(width: 50, height: 50)
+
                     }
-                }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+                    .padding(.horizontal, 24)
+                    .padding(.top, 47)
+                    
+                    Spacer()
+                    
+                    HStack {
+                        Spacer()
+                        
+                        NavigationLink(destination: NotesView()) {
+                            Image("add")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 70, height: 70)
+                                .background(Color("appBlack"))
+                                .cornerRadius(35)
+                                .shadow(color: .black, radius: 10, x: -5, y: 0)
+                                .shadow(color: .black, radius: 10, x: 0, y: 5)
+                        }
+                        .frame(width: 70, height: 70)
+                        .padding(.bottom, 49)
+                        .padding(.trailing, 35)
                     }
+                    .padding(.horizontal, 24)
                 }
             }
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
+            .navigationBarHidden(false)
         }
     }
 }
 
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
+struct NotesView: View {
+    @Environment(\.presentationMode) var presentationMode
+    
+    @State private var titleText: String = ""
+    @State private var bodyText: String = ""
+    
+    var body: some View {
+        ZStack {
+            Color("appBlack")
+                .ignoresSafeArea()
+            
+            VStack {
+                HStack {
+                    backButton
+                        .padding(.leading, 16)
+                    
+                    Spacer()
+                    
+                    saveButton
+                        .padding(.trailing, 25)
+                }
+                .frame(height: 50)
+                
+                TextEditor(text: $titleText)
+                    .foregroundColor(titleText.isEmpty ? Color.gray : .black)
+                    .font(.system(size: 35, weight: .regular))
+                    .padding()
+                    .frame(height: 100)
+                    .background(.clear)
+                    .onAppear {
+                        UITextView.appearance().backgroundColor = .clear
+                    }
+                    .onDisappear {
+                        UITextView.appearance().backgroundColor = nil
+                    }
+                    .cornerRadius(10)
+                    .onTapGesture {
+                        if titleText.isEmpty {
+                            titleText = ""
+                        }
+                    }
+                    .overlay(
+                        Group {
+                            if titleText.isEmpty {
+                                Text("Title")
+                                    .foregroundColor(Color.gray)
+                                    .padding(.leading, 5)
+                                    .padding(.top, 8)
+                            }
+                        }
+                    )
+
+                TextEditor(text: $bodyText)
+                    .foregroundColor(bodyText.isEmpty ? Color.gray : .black)
+                    .font(.system(size: 23, weight: .regular))
+                    .padding()
+                    .background(Color("appBlack"))
+                    .cornerRadius(10)
+                    .onTapGesture {
+                        if bodyText.isEmpty {
+                            bodyText = ""
+                        }
+                    }
+                    .overlay(
+                        Group {
+                            if bodyText.isEmpty {
+                                Text("Type something...")
+                                    .foregroundColor(Color.gray)
+                                    .padding(.leading, 5)
+                                    .padding(.top, 8)
+                            }
+                        }
+                    )
+
+                Spacer()
+            }
+        }
+        .navigationBarBackButtonHidden(true)
+    }
+    
+    private var backButton: some View {
+        Button(action: {
+            presentationMode.wrappedValue.dismiss()
+        }) {
+            Image("chevron_left")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 24, height: 24)
+                .foregroundColor(.white)
+        }
+    }
+    
+    private var saveButton: some View {
+        Button(action: {
+            saveNote()
+        }) {
+            Image("save")
+                .scaledToFit()
+                .frame(width: 48, height: 48)
+                .background(Color("appGray"))
+                .cornerRadius(15)
+        }
+    }
+
+    private func saveNote() {
+        print("Note saved with title: \(titleText) and body: \(bodyText)")
+        // Here you can add functionality to save the note to a database or file
+    }
+}
+
+struct NotesView_Previews: PreviewProvider {
+    static var previews: some View {
+        NotesView()
+    }
+}
 
 #Preview {
-    ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    ContentView()
 }
