@@ -43,11 +43,13 @@ struct ContentView: View {
                     
                     List {
                         ForEach(notesManager.notes) { note in
-                            NoteCellView(note: note) // Use the custom NoteCellView
-                                .listRowInsets(EdgeInsets()) // Remove default insets
+                            NoteCellView(note: note)
+                                .listRowInsets(EdgeInsets())
                         }
                     }
                     .listStyle(PlainListStyle())
+                    .background(Color.clear)
+                    .padding(.top, 10)
                     
                     Spacer()
                     

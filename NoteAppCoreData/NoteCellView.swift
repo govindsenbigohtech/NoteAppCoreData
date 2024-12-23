@@ -30,13 +30,14 @@ struct NoteCellView: View {
                 .lineLimit(1)
         }
         .padding()
-        .background(randomColor())
+        .background(randomColor().opacity(0.8))
         .cornerRadius(10)
         .frame(maxWidth: .infinity)
-        .padding(.horizontal, 24) 
+        .padding(.vertical, 10)
+        .padding(.horizontal, 24)
     }
     
     private func randomColor() -> Color {
-        return colors.randomElement() ?? Color.white
+        return colors.randomElement() ?? Color.clear
     }
 }
