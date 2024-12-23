@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var notesManager = NotesManager()
     
     var body: some View {
         NavigationView {
@@ -37,17 +38,30 @@ struct ContentView: View {
                         .cornerRadius(15)
                         .padding(.trailing, 25)
                         .frame(width: 50, height: 50)
-
                     }
                     .padding(.horizontal, 24)
                     .padding(.top, 47)
+                    
+                    List {
+                        ForEach(notesManager.notes) { note in
+                            VStack(alignment: .leading) {
+                                Text(note.title)
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                Text(note.body)
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                    }
+                    .listStyle(PlainListStyle())
                     
                     Spacer()
                     
                     HStack {
                         Spacer()
                         
-                        NavigationLink(destination: NotesView()) {
+                        NavigationLink(destination: NotesView(notesManager: notesManager)) {
                             Image("add")
                                 .resizable()
                                 .scaledToFit()
@@ -69,13 +83,14 @@ struct ContentView: View {
     }
 }
 
-
 struct NotesView: View {
     @Environment(\.presentationMode) var presentationMode
+    @ObservedObject var notesManager: NotesManager
     
     @State private var titleText: String = ""
     @State private var bodyText: String = ""
     @State private var showAlert: Bool = false
+    
     var body: some View {
         ZStack {
             Color("appBlack")
@@ -94,7 +109,7 @@ struct NotesView: View {
                 .frame(height: 50)
                 
                 TextEditor(text: $titleText)
-                    .foregroundColor(titleText.isEmpty ? Color.gray : .black)
+                    .foregroundColor(titleText.isEmpty ? Color.gray : .white)
                     .font(.system(size: 35, weight: .regular))
                     .padding()
                     .frame(height: 100)
@@ -123,7 +138,7 @@ struct NotesView: View {
                     )
 
                 TextEditor(text: $bodyText)
-                    .foregroundColor(bodyText.isEmpty ? Color.gray : .black)
+                    .foregroundColor(bodyText.isEmpty ? Color.gray : .white)
                     .font(.system(size: 23, weight: .regular))
                     .padding()
                     .background(Color("appBlack"))
@@ -226,14 +241,20 @@ struct NotesView: View {
     }
 
     private func saveNote() {
-        print("Note saved with title: \(titleText) and body: \(bodyText)")
+        let newNote = Note(title: titleText, body: bodyText)
+        notesManager.notes.append(newNote)
+        
+        titleText = ""
+        bodyText = ""
+        
         presentationMode.wrappedValue.dismiss()
     }
 }
 
 struct NotesView_Previews: PreviewProvider {
     static var previews: some View {
-        NotesView()
+        let notesManager = NotesManager()
+        return NotesView(notesManager: notesManager)
     }
 }
 
