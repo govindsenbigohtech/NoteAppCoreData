@@ -69,12 +69,13 @@ struct ContentView: View {
     }
 }
 
+
 struct NotesView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @State private var titleText: String = ""
     @State private var bodyText: String = ""
-    
+    @State private var showAlert: Bool = false
     var body: some View {
         ZStack {
             Color("appBlack")
@@ -145,6 +146,57 @@ struct NotesView: View {
 
                 Spacer()
             }
+            .overlay(
+                Group {
+                    if showAlert {
+                        Color.black.opacity(0.4)
+                            .ignoresSafeArea()
+                        
+                        VStack(spacing: 20) {
+                            Text("Save Changes?")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding()
+                            
+                            Text("Do you want to save your changes?")
+                                .font(.subheadline)
+                                .foregroundColor(.white)
+                                .multilineTextAlignment(.center)
+                                .padding()
+                            
+                            HStack {
+                                Button(action: {
+                                    presentationMode.wrappedValue.dismiss()
+                                }) {
+                                    Text("Discard")
+                                        .foregroundColor(.red)
+                                        .padding()
+                                        .background(Color.white.opacity(0.2))
+                                        .cornerRadius(8)
+                                }
+                                
+                                Spacer()
+                                
+                                Button(action: {
+                                    saveNote()
+                                    showAlert = false
+                                }) {
+                                    Text("Save")
+                                        .foregroundColor(.white)
+                                        .padding()
+                                        .background(Color.blue)
+                                        .cornerRadius(8)
+                                }
+                            }
+                            .padding(.horizontal)
+                        }
+                        .frame(width: 300, height: 200)
+                        .background(Color.gray)
+                        .cornerRadius(12)
+                        .shadow(radius: 20)
+                    }
+                }
+            )
         }
         .navigationBarBackButtonHidden(true)
     }
@@ -163,7 +215,7 @@ struct NotesView: View {
     
     private var saveButton: some View {
         Button(action: {
-            saveNote()
+            showAlert = true
         }) {
             Image("save")
                 .scaledToFit()
@@ -175,7 +227,7 @@ struct NotesView: View {
 
     private func saveNote() {
         print("Note saved with title: \(titleText) and body: \(bodyText)")
-        // Here you can add functionality to save the note to a database or file
+        presentationMode.wrappedValue.dismiss()
     }
 }
 
