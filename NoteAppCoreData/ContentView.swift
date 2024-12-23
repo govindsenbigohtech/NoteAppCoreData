@@ -6,9 +6,15 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ContentView: View {
-    @StateObject private var notesManager = NotesManager()
+    @Environment(\.managedObjectContext) private var viewContext
+    @StateObject private var notesManager: NotesManager
+    
+    init() {
+            _notesManager = StateObject(wrappedValue: NotesManager(context: PersistenceController.shared.container.viewContext))
+        }
     
     var body: some View {
         NavigationView {
@@ -256,10 +262,9 @@ struct NotesView: View {
                 .cornerRadius(15)
         }
     }
-
+    
     private func saveNote() {
-        let newNote = Note(title: titleText, body: bodyText)
-        notesManager.notes.append(newNote)
+        notesManager.saveNote(title: titleText, body: bodyText)
         
         titleText = ""
         bodyText = ""
@@ -268,12 +273,24 @@ struct NotesView: View {
     }
 }
 
+
 struct NotesView_Previews: PreviewProvider {
     static var previews: some View {
-        let notesManager = NotesManager()
+        // Create an in-memory managed object context for previews
+        let persistenceController = PersistenceController(inMemory: true)
+        let notesManager = NotesManager(context: persistenceController.container.viewContext)
+        
         return NotesView(notesManager: notesManager)
+            .environment(\.managedObjectContext, persistenceController.container.viewContext)
     }
 }
+
+//struct NotesView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let notesManager = NotesManager()
+//        return NotesView(notesManager: notesManager)
+//    }
+//}
 
 #Preview {
     ContentView()
