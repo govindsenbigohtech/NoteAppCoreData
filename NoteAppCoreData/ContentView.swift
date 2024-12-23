@@ -26,7 +26,6 @@ struct ContentView: View {
                         Spacer()
                         
                         Button(action: {
-                            // Action for search button
                         }) {
                             Image("search")
                                 .resizable()
@@ -90,7 +89,7 @@ struct NotesView: View {
     @State private var titleText: String = ""
     @State private var bodyText: String = ""
     @State private var showAlert: Bool = false
-    @State private var isDiscarding: Bool = false // New state variable
+    @State private var isDiscarding: Bool = false
     
     var body: some View {
         ZStack {
@@ -195,7 +194,18 @@ struct NotesView: View {
                                 
                                 Spacer()
                                 
-                                if !isDiscarding {
+                                if isDiscarding {
+                                    Button(action: {
+                                        showAlert = false
+                                        isDiscarding = false
+                                    }) {
+                                        Text("Keep")
+                                            .foregroundColor(.white)
+                                            .padding()
+                                            .background(.appGreen)
+                                            .cornerRadius(8)
+                                    }
+                                } else {
                                     Button(action: {
                                         saveNote()
                                         showAlert = false
@@ -236,7 +246,7 @@ struct NotesView: View {
     private var saveButton: some View {
         Button(action: {
             showAlert = true
-            isDiscarding = false // Reset discard state when showing alert
+            isDiscarding = false
         }) {
             Image("save")
                 .scaledToFit()
@@ -256,168 +266,6 @@ struct NotesView: View {
         presentationMode.wrappedValue.dismiss()
     }
 }
-
-//struct NotesView: View {
-//    @Environment(\.presentationMode) var presentationMode
-//    @ObservedObject var notesManager: NotesManager
-//    
-//    @State private var titleText: String = ""
-//    @State private var bodyText: String = ""
-//    @State private var showAlert: Bool = false
-//    
-//    var body: some View {
-//        ZStack {
-//            Color("appBlack")
-//                .ignoresSafeArea()
-//            
-//            VStack {
-//                HStack {
-//                    backButton
-//                        .padding(.leading, 16)
-//                    
-//                    Spacer()
-//                    
-//                    saveButton
-//                        .padding(.trailing, 25)
-//                }
-//                .frame(height: 50)
-//                
-//                TextEditor(text: $titleText)
-//                    .foregroundColor(titleText.isEmpty ? Color.gray : .white)
-//                    .font(.system(size: 35, weight: .regular))
-//                    .padding()
-//                    .frame(height: 100)
-//                    .background(.clear)
-//                    .onAppear {
-//                        UITextView.appearance().backgroundColor = .clear
-//                    }
-//                    .onDisappear {
-//                        UITextView.appearance().backgroundColor = nil
-//                    }
-//                    .cornerRadius(10)
-//                    .onTapGesture {
-//                        if titleText.isEmpty {
-//                            titleText = ""
-//                        }
-//                    }
-//                    .overlay(
-//                        Group {
-//                            if titleText.isEmpty {
-//                                Text("Title")
-//                                    .foregroundColor(Color.gray)
-//                                    .padding(.leading, 5)
-//                                    .padding(.top, 8)
-//                            }
-//                        }
-//                    )
-//
-//                TextEditor(text: $bodyText)
-//                    .foregroundColor(bodyText.isEmpty ? Color.gray : .white)
-//                    .font(.system(size: 23, weight: .regular))
-//                    .padding()
-//                    .background(Color("appBlack"))
-//                    .cornerRadius(10)
-//                    .onTapGesture {
-//                        if bodyText.isEmpty {
-//                            bodyText = ""
-//                        }
-//                    }
-//                    .overlay(
-//                        Group {
-//                            if bodyText.isEmpty {
-//                                Text("Type something...")
-//                                    .foregroundColor(Color.gray)
-//                                    .padding(.leading, 5)
-//                                    .padding(.top, 8)
-//                            }
-//                        }
-//                    )
-//
-//                Spacer()
-//            }
-//            .overlay(
-//                Group {
-//                    if showAlert {
-//                        Color.black.opacity(0.4)
-//                            .ignoresSafeArea()
-//                        
-//                        VStack(spacing: 20) {
-//                            Text("Save Changes?")
-//                                .font(.headline)
-//                                .foregroundColor(.white)
-//                                .padding()
-//                            
-//                            HStack {
-//                                Button(action: {
-//                                    presentationMode.wrappedValue.dismiss()
-//                                }) {
-//                                    Text("Discard")
-//                                        .foregroundColor(.white)
-//                                        .padding()
-//                                        .background(Color.appRed)
-//                                        .cornerRadius(8)
-//                                }
-//                                
-//                                Spacer()
-//                                
-//                                Button(action: {
-//                                    saveNote()
-//                                    showAlert = false
-//                                }) {
-//                                    Text("Save")
-//                                        .foregroundColor(.white)
-//                                        .padding()
-//                                        .background(Color.appGreen)
-//                                        .cornerRadius(8)
-//                                }
-//                            }
-//                            .padding(.horizontal)
-//                        }
-//                        .frame(width: 300, height: 200)
-//                        .background(Color.appBlack)
-//                        .cornerRadius(12)
-//                        .shadow(radius: 20)
-//                    }
-//                }
-//            )
-//        }
-//        .navigationBarBackButtonHidden(true)
-//    }
-//    
-//    private var backButton: some View {
-//        Button(action: {
-//            presentationMode.wrappedValue.dismiss()
-//        }) {
-//            Image("chevron_left")
-//                .resizable()
-//                .scaledToFit()
-//                .frame(width: 24, height: 24)
-//                .foregroundColor(.white)
-//        }
-//    }
-//    
-//    private var saveButton: some View {
-//        Button(action: {
-//            showAlert = true
-//        }) {
-//            Image("save")
-//                .scaledToFit()
-//                .frame(width: 48, height: 48)
-//                .background(Color("appGray"))
-//                .cornerRadius(15)
-//        }
-//    }
-//
-//    private func saveNote() {
-//        let newNote = Note(title: titleText, body: bodyText)
-//        notesManager.notes.append(newNote)
-//        
-//        titleText = ""
-//        bodyText = ""
-//        
-//        presentationMode.wrappedValue.dismiss()
-//    }
-//}
 
 struct NotesView_Previews: PreviewProvider {
     static var previews: some View {
