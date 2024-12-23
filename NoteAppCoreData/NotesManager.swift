@@ -5,15 +5,9 @@
 //  Created by Govind-BigOh on 23/12/24.
 //
 //
-//import SwiftUI
-//import Combine
-//
-//class NotesManager: ObservableObject {
-//    @Published var notes: [Note] = []
-//}
-
-import CoreData
+import SwiftUI
 import Combine
+import CoreData
 
 class NotesManager: ObservableObject {
     @Published var notes: [Note] = []
@@ -38,13 +32,31 @@ class NotesManager: ObservableObject {
         let newNote = NoteData(context: context)
         newNote.title = title
         newNote.body = body
-        newNote.timestamp = Date() // Assuming you have a timestamp attribute
+        newNote.timestamp = Date()
 
         do {
             try context.save()
-            fetchNotes() // Refresh the notes list
+            fetchNotes()
         } catch {
             print("Failed to save note: \(error)")
+        }
+    }
+
+    func deleteNote(at offsets: IndexSet) {
+        offsets.map { notes[$0] }.forEach { note in
+            // Find the corresponding NoteData object
+            let request: NSFetchRequest<NoteData> = NoteData.fetchRequest()
+            request.predicate = NSPredicate(format: "title == %@ AND body == %@", note.title, note.body)
+            do {
+                let noteDataArray = try context.fetch(request)
+                for noteData in noteDataArray {
+                    context.delete(noteData)
+                }
+                try context.save()
+                fetchNotes() // Refresh the notes list
+            } catch {
+                print("Failed to delete note: \(error)")
+            }
         }
     }
 }

@@ -16,6 +16,10 @@ struct ContentView: View {
             _notesManager = StateObject(wrappedValue: NotesManager(context: PersistenceController.shared.container.viewContext))
         }
     
+    private func deleteNotes(at offsets: IndexSet) {
+        notesManager.deleteNote(at: offsets)
+    }
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -47,11 +51,18 @@ struct ContentView: View {
                     .padding(.horizontal, 24)
                     .padding(.top, 47)
                     
+//                    List {
+//                        ForEach(notesManager.notes) { note in
+//                            NoteCellView(note: note)
+//                                .listRowInsets(EdgeInsets())
+//                        }
+//                    }
                     List {
                         ForEach(notesManager.notes) { note in
                             NoteCellView(note: note)
                                 .listRowInsets(EdgeInsets())
                         }
+                        .onDelete(perform: deleteNotes) // Add this line
                     }
                     .listStyle(PlainListStyle())
                     .background(Color.clear)
@@ -285,12 +296,6 @@ struct NotesView_Previews: PreviewProvider {
     }
 }
 
-//struct NotesView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        let notesManager = NotesManager()
-//        return NotesView(notesManager: notesManager)
-//    }
-//}
 
 #Preview {
     ContentView()
