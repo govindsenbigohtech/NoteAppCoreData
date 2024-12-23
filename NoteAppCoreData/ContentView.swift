@@ -5,7 +5,6 @@
 //  Created by Govind-BigOh on 23/12/24.
 //
 
-
 import SwiftUI
 
 struct ContentView: View {
@@ -26,6 +25,7 @@ struct ContentView: View {
                         Spacer()
                         
                         Button(action: {
+                            // Search action
                         }) {
                             Image("search")
                                 .resizable()
@@ -43,14 +43,8 @@ struct ContentView: View {
                     
                     List {
                         ForEach(notesManager.notes) { note in
-                            VStack(alignment: .leading) {
-                                Text(note.title)
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                Text(note.body)
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
-                            }
+                            NoteCellView(note: note) // Use the custom NoteCellView
+                                .listRowInsets(EdgeInsets()) // Remove default insets
                         }
                     }
                     .listStyle(PlainListStyle())
