@@ -88,19 +88,38 @@ struct ContentView: View {
         List {
             ForEach(notesManager.notes) { note in
                 NoteCellView(note: note, notesManager: notesManager)
-                    .listRowBackground(Color.clear) // Ensure clear background for rows
-                    .listRowInsets(EdgeInsets())
+                    .listRowBackground(Color.clear) // Clear row background
+                    .listRowInsets(EdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24)) // Add insets
             }
             .onDelete(perform: deleteNotes)
         }
         .listStyle(PlainListStyle())
-        .background(Color.clear) // Clear background for the entire list
+        .background(Color.clear) // Clear list background
         .onAppear {
-            UITableView.appearance().backgroundColor = .clear // Clear table view background
-            UITableViewCell.appearance().backgroundColor = .clear // Clear cell background
+            UITableView.appearance().backgroundColor = .clear // Clear UITableView background
+            UITableViewCell.appearance().backgroundColor = .clear // Clear UITableViewCell background
         }
         .padding(.top, 10)
     }
+
+    
+//    private var notesListView: some View {
+//        List {
+//            ForEach(notesManager.notes) { note in
+//                NoteCellView(note: note, notesManager: notesManager)
+//                    .listRowBackground(Color.clear) // Ensure clear background for rows
+//                    .listRowInsets(EdgeInsets())
+//            }
+//            .onDelete(perform: deleteNotes)
+//        }
+//        .listStyle(PlainListStyle())
+//        .background(Color.clear) // Clear background for the entire list
+//        .onAppear {
+//            UITableView.appearance().backgroundColor = .clear // Clear table view background
+//            UITableViewCell.appearance().backgroundColor = .clear // Clear cell background
+//        }
+//        .padding(.top, 10)
+//    }
 
     
 //    private var notesListView: some View {
