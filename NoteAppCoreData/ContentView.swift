@@ -69,19 +69,18 @@ struct ContentView: View {
     }
     
     private var emptyStateView: some View {
-        VStack(spacing: 0) {             Image("notesImg")
+        VStack(spacing: 16) {
+            Image("notesImg")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 350, height: 286.73)
-                .padding(0)
-                .frame(maxWidth: .infinity, maxHeight: .infinity) // Center it
-            
+                .frame(width: 350, height: 286.73) 
+                
             Text("Create your first note!")
                 .font(.system(size: 20, weight: .medium))
                 .foregroundColor(.white)
-                .padding(.top, 2)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(.top, 20)
     }
     
     private var notesListView: some View {
