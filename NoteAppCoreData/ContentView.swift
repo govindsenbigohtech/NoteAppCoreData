@@ -4,7 +4,7 @@
 //
 //  Created by Govind-BigOh on 23/12/24.
 //
-
+//
 import SwiftUI
 import CoreData
 
@@ -81,7 +81,7 @@ struct ContentView: View {
                     .padding(.horizontal, 24)
                 }
             }
-            .navigationBarHidden(false)
+            .navigationBarHidden(true)
         }
     }
 }
