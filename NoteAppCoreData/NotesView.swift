@@ -18,6 +18,10 @@ struct NotesView: View {
     @State private var isDiscarding: Bool = false
     @State private var isEditing: Bool = false
     var note: Note?
+    
+    // Store original text for comparison
+    private var originalTitle: String
+    private var originalBody: String
 
     init(notesManager: NotesManager, note: Note? = nil) {
         self.notesManager = notesManager
@@ -25,6 +29,11 @@ struct NotesView: View {
         if let note = note {
             _titleText = State(initialValue: note.title)
             _bodyText = State(initialValue: note.body)
+            originalTitle = note.title
+            originalBody = note.body
+        } else {
+            originalTitle = ""
+            originalBody = ""
         }
     }
 
@@ -72,8 +81,6 @@ struct NotesView: View {
                 TextEditor(text: $titleText)
                     .foregroundColor(titleText.isEmpty ? Color.gray : .white)
                     .font(Font.customFont(family: .nunito, sizeFamily: .regular, size: 35))
-
-//                    .font(.system(size: 35, weight: .regular))
                     .padding()
                     .frame(height: 100)
                     .background(.clear)
@@ -90,7 +97,6 @@ struct NotesView: View {
                             if titleText.isEmpty {
                                 Text("Title")
                                     .font(Font.customFont(family: .nunito, sizeFamily: .regular, size: 35))
-
                                     .foregroundColor(.appLightGray)
                                     .padding(.leading, 5)
                                     .padding(.top, 8)
@@ -101,8 +107,6 @@ struct NotesView: View {
                 TextEditor(text: $bodyText)
                     .foregroundColor(bodyText.isEmpty ? Color.gray : .white)
                     .font(Font.customFont(family: .nunito, sizeFamily: .regular, size: 23))
-
-//                    .font(.system(size: 23, weight: .regular))
                     .padding()
                     .background(Color("appBlack"))
                     .cornerRadius(10)
@@ -197,12 +201,13 @@ struct NotesView: View {
     
     private var backButton: some View {
         Button(action: {
-            if titleText.isEmpty && bodyText.isEmpty {
-                // No changes made, dismiss the view
-                presentationMode.wrappedValue.dismiss()
-            } else {
+            // Check if there are changes made
+            if titleText != originalTitle || bodyText != originalBody {
                 // Changes made, show the alert
                 showAlert = true
+            } else {
+                // No changes made, dismiss the view
+                presentationMode.wrappedValue.dismiss()
             }
         }) {
             Image("chevron_left")
