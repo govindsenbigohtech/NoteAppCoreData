@@ -3,8 +3,8 @@
 //  NoteAppCoreData
 //
 //  Created by Govind-BigOh on 23/12/24.
-//
-//
+
+
 import SwiftUI
 import CoreData
 
@@ -27,62 +27,94 @@ struct ContentView: View {
                     .ignoresSafeArea()
                 
                 VStack {
-                    HStack {
-                        Text("Notes")
-                            .font(.system(size: 43, weight: .semibold))
-                            .foregroundColor(.white)
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                        }) {
-                            Image("search")
-                                .scaledToFill()
-                                .frame(width: 48, height: 48)
-                                .padding()
-                        }
-                        .background(Color("appGray"))
-                        .cornerRadius(15)
-                        .padding(.trailing, 25)
-                        .frame(width: 50, height: 50)
-                    }
-                    .padding(.horizontal, 24)
-                    .padding(.top, 47)
+                    headerView
                     
-                    List {
-                        ForEach(notesManager.notes) { note in
-                            NoteCellView(note: note, notesManager: notesManager)
-                                .listRowInsets(EdgeInsets())
-                        }
-                        .onDelete(perform: deleteNotes)
+                    if notesManager.notes.isEmpty {
+                        emptyStateView
+                    } else {
+                        notesListView
                     }
-                    .listStyle(PlainListStyle())
-                    .background(Color.clear)
-                    .padding(.top, 10)
                     
                     Spacer()
                     
-                    HStack {
-                        Spacer()
-                        
-                        NavigationLink(destination: NotesView(notesManager: notesManager)) {
-                            Image("add")
-                                .scaledToFit()
-                                .frame(width: 70, height: 70)
-                                .background(Color("appBlack"))
-                                .cornerRadius(35)
-                                .shadow(color: .black, radius: 10, x: -5, y: 0)
-                                .shadow(color: .black, radius: 10, x: 0, y: 5)
-                        }
-                        .frame(width: 70, height: 70)
-                        .padding(.bottom, 49)
-                        .padding(.trailing, 35)
-                    }
-                    .padding(.horizontal, 24)
+                    addButton
                 }
             }
             .navigationBarHidden(true)
         }
+    }
+    
+    private var headerView: some View {
+        HStack {
+            Text("Notes")
+                .font(.system(size: 43, weight: .semibold))
+                .foregroundColor(.white)
+            
+            Spacer()
+            
+            Button(action: {
+            }) {
+                Image("search")
+                    .scaledToFill()
+                    .frame(width: 48, height: 48)
+                    .padding()
+            }
+            .background(Color("appGray"))
+            .cornerRadius(15)
+            .padding(.trailing, 25)
+            .frame(width: 50, height: 50)
+        }
+        .padding(.horizontal, 24)
+        .padding(.top, 47)
+    }
+    
+    private var emptyStateView: some View {
+        VStack(spacing: 0) {             Image("notesImg")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 350, height: 286.73)
+                .padding(0)
+                .frame(maxWidth: .infinity, maxHeight: .infinity) // Center it
+            
+            Text("Create your first note!")
+                .font(.system(size: 20, weight: .medium))
+                .foregroundColor(.white)
+                .padding(.top, 2)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+    
+    private var notesListView: some View {
+        List {
+            ForEach(notesManager.notes) { note in
+                NoteCellView(note: note, notesManager: notesManager)
+                    .listRowInsets(EdgeInsets())
+            }
+            .onDelete(perform: deleteNotes)
+        }
+        .listStyle(PlainListStyle())
+        .background(Color.clear)
+        .padding(.top, 10)
+    }
+    
+    private var addButton: some View {
+        HStack {
+            Spacer()
+            
+            NavigationLink(destination: NotesView(notesManager: notesManager)) {
+                Image("add")
+                    .scaledToFit()
+                    .frame(width: 70, height: 70)
+                    .background(Color("appBlack"))
+                    .cornerRadius(35)
+                    .shadow(color: .black, radius: 10, x: -5, y: 0)
+                    .shadow(color: .black, radius: 10, x: 0, y: 5)
+            }
+            .frame(width: 70, height: 70)
+            .padding(.bottom, 49)
+            .padding(.trailing, 35)
+        }
+        .padding(.horizontal, 24)
     }
 }
 
