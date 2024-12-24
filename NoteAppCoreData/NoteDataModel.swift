@@ -11,4 +11,5 @@ struct Note: Identifiable {
     let id = UUID()
     var title: String
     var body: String
+    var timestamp: Date
 }
