@@ -19,7 +19,6 @@ struct NotesView: View {
     @State private var isEditing: Bool = false
     var note: Note?
     
-    // Store original text for comparison
     private var originalTitle: String
     private var originalBody: String
 
