@@ -55,14 +55,15 @@ struct ContentView: View {
             Button(action: {
             }) {
                 Image("search")
-                    .scaledToFill()
-                    .frame(width: 48, height: 48)
-                    .padding()
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 20, height: 20)
+                    .padding(12)
             }
             .background(Color("appGray"))
             .cornerRadius(15)
-            .padding(.trailing, 25)
             .frame(width: 50, height: 50)
+            .padding(.trailing, 25)
         }
         .padding(.horizontal, 24)
         .padding(.top, 47)
