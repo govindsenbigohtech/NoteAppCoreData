@@ -89,7 +89,7 @@ struct ContentView: View {
             ForEach(notesManager.notes) { note in
                 NoteCellView(note: note, notesManager: notesManager)
                     .listRowBackground(Color.clear) // Clear row background
-                    .listRowInsets(EdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24)) // Add insets
+                    .listRowInsets(EdgeInsets(top: 0, leading: 24, bottom: 25, trailing: 24)) // Add spacing for each row
             }
             .onDelete(perform: deleteNotes)
         }
@@ -101,6 +101,25 @@ struct ContentView: View {
         }
         .padding(.top, 10)
     }
+
+    
+//    private var notesListView: some View {
+//        List {
+//            ForEach(notesManager.notes) { note in
+//                NoteCellView(note: note, notesManager: notesManager)
+//                    .listRowBackground(Color.clear) // Clear row background
+//                    .listRowInsets(EdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24)) // Add insets
+//            }
+//            .onDelete(perform: deleteNotes)
+//        }
+//        .listStyle(PlainListStyle())
+//        .background(Color.clear) // Clear list background
+//        .onAppear {
+//            UITableView.appearance().backgroundColor = .clear // Clear UITableView background
+//            UITableViewCell.appearance().backgroundColor = .clear // Clear UITableViewCell background
+//        }
+//        .padding(.top, 10)
+//    }
 
     
 //    private var notesListView: some View {
