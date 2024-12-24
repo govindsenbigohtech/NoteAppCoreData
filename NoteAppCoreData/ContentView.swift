@@ -50,7 +50,8 @@ struct ContentView: View {
     private var headerView: some View {
         HStack {
             Text("Notes")
-                .font(.system(size: 43, weight: .semibold))
+                .font(Font.customFont(family: .nunito, sizeFamily: .semibold, size: 43))
+//                .font(.system(size: 43, weight: .semibold))
                 .foregroundColor(.white)
             
             Spacer()

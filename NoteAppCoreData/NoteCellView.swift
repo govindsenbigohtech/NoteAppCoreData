@@ -65,12 +65,16 @@ struct NoteCellView: View {
         NavigationLink(destination: NotesView(notesManager: notesManager, note: note)) {
             VStack(alignment: .leading, spacing: 10) {
                 Text(note.title)
-                    .font(.custom("Nunito-Regular", size: 35))
+                    .font(Font.customFont(family: .nunito, sizeFamily: .regular, size: 35))
+
+//                    .font(.custom("Nunito-Regular", size: 35))
                     .foregroundColor(Color("appGray"))
                     .lineLimit(1)
                 
                 Text(note.body)
-                    .font(.custom("Nunito-Regular", size: 23))
+                    .font(Font.customFont(family: .nunito, sizeFamily: .regular, size: 23))
+
+//                    .font(.custom("Nunito-Regular", size: 23))
                     .foregroundColor(Color("appGray"))
                     .lineLimit(1)
             }

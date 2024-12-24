@@ -71,7 +71,9 @@ struct NotesView: View {
                 
                 TextEditor(text: $titleText)
                     .foregroundColor(titleText.isEmpty ? Color.gray : .white)
-                    .font(.system(size: 35, weight: .regular))
+                    .font(Font.customFont(family: .nunito, sizeFamily: .regular, size: 35))
+
+//                    .font(.system(size: 35, weight: .regular))
                     .padding()
                     .frame(height: 100)
                     .background(.clear)
@@ -87,7 +89,9 @@ struct NotesView: View {
                         Group {
                             if titleText.isEmpty {
                                 Text("Title")
-                                    .foregroundColor(Color.gray)
+                                    .font(Font.customFont(family: .nunito, sizeFamily: .regular, size: 35))
+
+                                    .foregroundColor(.appLightGray)
                                     .padding(.leading, 5)
                                     .padding(.top, 8)
                             }
@@ -96,7 +100,9 @@ struct NotesView: View {
 
                 TextEditor(text: $bodyText)
                     .foregroundColor(bodyText.isEmpty ? Color.gray : .white)
-                    .font(.system(size: 23, weight: .regular))
+                    .font(Font.customFont(family: .nunito, sizeFamily: .regular, size: 23))
+
+//                    .font(.system(size: 23, weight: .regular))
                     .padding()
                     .background(Color("appBlack"))
                     .cornerRadius(10)
@@ -105,7 +111,8 @@ struct NotesView: View {
                         Group {
                             if bodyText.isEmpty {
                                 Text("Type something...")
-                                    .foregroundColor(Color.gray)
+                                    .font(Font.customFont(family: .nunito, sizeFamily: .regular, size: 23))
+                                    .foregroundColor(.appLightGray)
                                     .padding(.leading, 5)
                                     .padding(.top, 8)
                             }
