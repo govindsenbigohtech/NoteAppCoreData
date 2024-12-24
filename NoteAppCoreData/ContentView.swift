@@ -35,11 +35,9 @@ struct ContentView: View {
                         Spacer()
                         
                         Button(action: {
-                            // Search action
                         }) {
                             Image("search")
-                                .resizable()
-                                .scaledToFit()
+                                .scaledToFill()
                                 .frame(width: 48, height: 48)
                                 .padding()
                         }
@@ -69,7 +67,6 @@ struct ContentView: View {
                         
                         NavigationLink(destination: NotesView(notesManager: notesManager)) {
                             Image("add")
-                                .resizable()
                                 .scaledToFit()
                                 .frame(width: 70, height: 70)
                                 .background(Color("appBlack"))
@@ -98,7 +95,7 @@ struct NotesView: View {
     @State private var showAlert: Bool = false
     @State private var isDiscarding: Bool = false
     @State private var isEditing: Bool = false
-    var note: Note? // Optional note for editing
+    var note: Note?
 
     init(notesManager: NotesManager, note: Note? = nil) {
         self.notesManager = notesManager
@@ -121,13 +118,11 @@ struct NotesView: View {
                     
                     Spacer()
                     
-                    // Show "Save" or "Edit" button based on whether a note exists
                     if note == nil {
                         Button(action: {
-                            saveNote() // Save the new note
+                            saveNote()
                         }) {
-                            Image("save") // Save icon
-                                .resizable()
+                            Image("save")
                                 .scaledToFit()
                                 .frame(width: 48, height: 48)
                                 .background(Color("appGray"))
@@ -137,13 +132,11 @@ struct NotesView: View {
                     } else {
                         Button(action: {
                             if isEditing {
-                                showAlert = true // Show alert when saving
+                                showAlert = true
                             }
-                            isEditing.toggle() // Toggle edit mode
+                            isEditing.toggle()
                         }) {
-                            Image(isEditing ? "save" : "edit") // Change image based on editing state
-                                .resizable()
-                                .scaledToFit()
+                            Image(isEditing ? "save" : "edit")                                 .scaledToFit()
                                 .frame(width: 48, height: 48)
                                 .background(Color("appGray"))
                                 .cornerRadius(15)
@@ -166,7 +159,7 @@ struct NotesView: View {
                         UITextView.appearance().backgroundColor = nil
                     }
                     .cornerRadius(10)
-                    .disabled(note != nil && !isEditing) // Disable editing if not in edit mode
+                    .disabled(note != nil && !isEditing)
                     .overlay(
                         Group {
                             if titleText.isEmpty {
@@ -184,7 +177,7 @@ struct NotesView: View {
                     .padding()
                     .background(Color("appBlack"))
                     .cornerRadius(10)
-                    .disabled(note != nil && !isEditing) // Disable editing if not in edit mode
+                    .disabled(note != nil && !isEditing)
                     .overlay(
                         Group {
                             if bodyText.isEmpty {
@@ -206,7 +199,6 @@ struct NotesView: View {
                         
                         VStack(spacing: 20) {
                             Image("info")
-                                .resizable()
                                 .scaledToFit()
                                 .frame(width: 50, height: 50)
                                 .padding(.top)
@@ -248,7 +240,7 @@ struct NotesView: View {
                                     }
                                 } else {
                                     Button(action: {
-                                        saveNote() // Save the note when confirmed
+                                        saveNote()
                                         showAlert = false
                                     }) {
                                         Text("Save")
@@ -278,7 +270,6 @@ struct NotesView: View {
             presentationMode.wrappedValue.dismiss()
         }) {
             Image("chevron_left")
-                .resizable()
                 .scaledToFit()
                 .frame(width: 24, height: 24)
                 .foregroundColor(.white)
@@ -297,7 +288,6 @@ struct NotesView: View {
 
 struct NotesView_Previews: PreviewProvider {
     static var previews: some View {
-        // Create an in-memory managed object context for previews
         let persistenceController = PersistenceController(inMemory: true)
         let notesManager = NotesManager(context: persistenceController.container.viewContext)
         

@@ -55,7 +55,7 @@ class NotesManager: ObservableObject {
 
             do {
                 try context.save()
-                fetchNotes() // Refresh the notes list after saving
+                fetchNotes()
             } catch {
                 print("Failed to save note: \(error)")
             }
@@ -64,7 +64,6 @@ class NotesManager: ObservableObject {
 
     func deleteNote(at offsets: IndexSet) {
         offsets.map { notes[$0] }.forEach { note in
-            // Find the corresponding NoteData object
             let request: NSFetchRequest<NoteData> = NoteData.fetchRequest()
             request.predicate = NSPredicate(format: "title == %@ AND body == %@", note.title, note.body)
             do {
@@ -73,7 +72,7 @@ class NotesManager: ObservableObject {
                     context.delete(noteData)
                 }
                 try context.save()
-                fetchNotes() // Refresh the notes list
+                fetchNotes() 
             } catch {
                 print("Failed to delete note: \(error)")
             }
