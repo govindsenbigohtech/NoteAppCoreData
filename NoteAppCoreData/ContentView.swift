@@ -66,7 +66,6 @@ struct ContentView: View {
             .background(Color("appGray"))
             .cornerRadius(15)
             .frame(width: 50, height: 50)
-            .padding(.trailing, 25)
         }
         .padding(.horizontal, 24)
         .padding(.top, 47)
