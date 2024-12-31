@@ -26,7 +26,6 @@ struct ContentView: View {
                 Color("appBlack")
                     .ignoresSafeArea()
                 
-                // Main Content
                 VStack {
                     headerView
                     
@@ -51,7 +50,6 @@ struct ContentView: View {
         HStack {
             Text("Notes")
                 .font(Font.customFont(family: .nunito, sizeFamily: .semibold, size: 43))
-//                .font(.system(size: 43, weight: .semibold))
                 .foregroundColor(.white)
             
             Spacer()
@@ -126,7 +124,7 @@ struct ContentView: View {
     }
 }
 
-#Preview {
-    ContentView()
-}
+//#Preview {
+//    ContentView()
+//}
 

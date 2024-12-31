@@ -200,12 +200,9 @@ struct NotesView: View {
     
     private var backButton: some View {
         Button(action: {
-            // Check if there are changes made
             if titleText != originalTitle || bodyText != originalBody {
-                // Changes made, show the alert
                 showAlert = true
             } else {
-                // No changes made, dismiss the view
                 presentationMode.wrappedValue.dismiss()
             }
         }) {
